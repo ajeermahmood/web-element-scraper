@@ -16,7 +16,7 @@
     "scraper"
   ],
   "author": "Ajeer Mohammed",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "puppeteer": "^22.9.0"
