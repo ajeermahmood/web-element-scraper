@@ -24,4 +24,33 @@ async function scrape(url, element) {
   }
 }
 
-module.exports = scrape;
+async function scrapeMultiple(url, elements) {
+  let browser;
+  try {
+    browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url, { waitUntil: "networkidle2" });
+    const html = await page.content();
+    const $ = cheerio.load(html);
+    const results = {};
+
+    for (const element of elements) {
+      const texts = [];
+      $(element).each((i, elem) => {
+        texts.push($(elem).text());
+      });
+      results[element] = texts;
+    }
+
+    return results;
+  } catch (error) {
+    console.error(`An error occurred while scraping: ${error.message}`);
+    return {};
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
+  }
+}
+
+module.exports = { scrape, scrapeMultiple };

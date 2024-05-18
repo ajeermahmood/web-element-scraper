@@ -15,26 +15,31 @@ npm install web-element-scraper
 Element Scraper provides a simple interface for scraping text from HTML elements on a web page.
 
 ```javascript
-const scrape = require('web-element-scraper');
+const { scrape, scrapeMultiple } = require("web-element-scraper");
 
-async function exampleScrape() {
-  try {
-    const url = 'https://example.com';
-    const element = 'h1'; // The element you want to scrape
-    const titles = await scrape(url, element);
-    console.log(titles); // Output the scraped text content
-  } catch (error) {
-    console.error('An error occurred:', error);
-  }
-}
+// Scrape single element
+scrape("https://example.com", "h1")
+  .then((titles) => {
+    console.log("H1 Titles:", titles);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
-exampleScrape();
+// Scrape multiple elements
+scrapeMultiple("https://example.com", ["h1", "h2", "p"])
+  .then((results) => {
+    console.log("Scraped Data:", results);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 ```
 
 ### Parameters
 
 - `url` (string): The URL of the web page you want to scrape.
-- `element` (string): The HTML element(s) you want to scrape.
+- `element / elements` (string / [string]): The HTML element(s) you want to scrape.
 
 ### Return Value
 
